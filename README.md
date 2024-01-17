@@ -101,4 +101,4 @@ php artisan migrate:refresh --seed
 
 * Se cuenta con una hora y media para la realización de la prueba técnica.
 
-* La solución de la prueba técnica deberá ser cargada al mismo repositorio con una rama con el nombre del postulante. Ejemplo: `juan-perez`. La carga de la solución de la prueba técnica deberá ser realizada 10 minutos antes de la hora de finalización.
+* La solución de la prueba técnica deberá ser cargada a un repositorio nuevo del postulante y la url generada deberá ser entregada al responsable de la prueba. La carga de la solución deberá ser realizada 10 minutos antes de la hora de finalización.
