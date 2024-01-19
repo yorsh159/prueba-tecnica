@@ -81,6 +81,7 @@
             </div>
         </div>
 
+
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -96,28 +97,32 @@
                                         <th>Fecha de nacimiento</th>
                                         <th>Sexo</th>
                                         <th>Cantidad de hijos</th>
+                                        <th>Sueldo Bruto</th>
+                                        <th>Sueldo Neto</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($workers as $worker)
+                                    @foreach ($colabs as $colab)
                                         <tr>
-                                            <td>{{ $worker->names }}</td>
-                                            <td>{{ $worker->paternal_surname }}</td>
-                                            <td>{{ $worker->maternal_surname }}</td>
-                                            <td>{{ $worker->dni }}</td>
-                                            <td>{{ date('d/m/Y', strtotime($worker->birth_date)) }}</td>
+                                            <td>{{ $colab->nombre }}</td>
+                                            <td>{{ $colab->ap_paterno }}</td>
+                                            <td>{{ $colab->ap_materno }}</td>
+                                            <td>{{ $colab->dni }}</td>
+                                            <td>{{ date('d/m/Y', strtotime($colab->fec_nac)) }}</td>
                                             <td>
-                                                @if ($worker->gender === 'M')
+                                                @if ($colab->sexo === 'M')
                                                     Masculino
-                                                @elseif ($worker->gender === 'F')
+                                                @elseif ($colab->sexo === 'F')
                                                     Femenino
                                                 @else
                                                     Otro
                                                 @endif
                                             </td>
-                                            <td>{{ $worker->children_quantity }}</td>
+                                            <td>{{ $colab->cant_hijos }}</td>
+                                            <td>{{ $colab->sueldo_bruto }}</td>
+                                            <td>{{ $colab->sueldo }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-secondary btn-sm">
                                                     Ver
@@ -140,6 +145,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="modal fade" id="modal-add-worker" tabindex="-1" aria-hidden="true">
@@ -150,30 +156,47 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="/" method="POST" novalidate>
+                <form action="{{route('store')}}" method="POST" novalidate>
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="names" class="form-label">Nombres</label>
-                            <input type="text" class="form-control" id="names" name="names" required>
+                            <input type="text" class="form-control" id="names" name="names"
+                                value="{{old('names')}}">
+                                @error('names')                     
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
                         </div>
                         <div class="mb-3">
                             <label for="paternal_surname" class="form-label">Apellido Paterno</label>
                             <input type="text" class="form-control" id="paternal_surname" name="paternal_surname"
-                                required>
+                                value="{{old('paternal_surname')}}">
+                                @error('paternal_surname')                     
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
                         </div>
                         <div class="mb-3">
                             <label for="maternal_surname" class="form-label">Apellido Materno</label>
                             <input type="text" class="form-control" id="maternal_surname" name="maternal_surname"
-                                required>
+                                value="{{old('maternal_surname')}}">
+                                @error('maternal_surname')                     
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
                         </div>
                         <div class="mb-3">
                             <label for="document" class="form-label">DNI</label>
-                            <input type="text" class="form-control" id="document" name="document" required>
+                            <input type="text" class="form-control" id="document" name="document" 
+                            value="{{old('document')}}">
+                            @error('document')                     
+                                    <small class="text-danger">{{$message}}</small>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="birth_date" class="form-label">Fecha de nacimiento</label>
                             <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                            @error('birth_date')                     
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="gender" class="form-label">Sexo</label>
@@ -181,12 +204,32 @@
                                 <option value="M">Masculino</option>
                                 <option value="F">Femenino</option>
                             </select>
+                            @error('gender')                     
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="sueldo" class="form-label">Sueldo</label>
+                            <input type="text" class="form-control" id="sueldo" name="sueldo" 
+                            value="{{old('sueldo')}}">
+                            @error('sueldo')                     
+                                    <small class="text-danger">{{$message}}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="cant_hijos" class="form-label">Número de hijos</label>
+                            <input type="text" class="form-control" id="cant_hijos" name="cant_hijos" 
+                            value="{{old('cant_hijos')}}">
+                            @error('cant_hijos')                     
+                                    <small class="text-danger">{{$message}}</small>
+                            @enderror
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" id="btn-store-worker" class="btn btn-success">Guardar</button>
+                        <button type="submit" id="btn-store-worker" class="btn btn-success" >Guardar</button>
                     </div>
                 </form>
             </div>
